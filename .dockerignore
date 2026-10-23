@@ -1,0 +1,6 @@
+node_modules
+session
+sessions
+data.json
+.env
+.git
