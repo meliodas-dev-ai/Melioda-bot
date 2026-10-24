@@ -53,6 +53,7 @@ app.get('/api/statut/:numero', (req, res) => {
   res.json({ connecte: estConnecte(String(req.params.numero).replace(/\D/g, '')) })
 })
 
+app.get('/healthz', (req, res) => res.send('ok'))
 await chargerCommandes()
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`🌐 Site prêt : http://localhost:${port}`))
