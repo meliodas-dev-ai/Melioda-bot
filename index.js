@@ -1,3 +1,7 @@
+const filtre = (f) => (...a) => { const t = a.map(String).join(' '); if (/Closing session|Failed to decrypt|Session error|Bad MAC|MessageCounterError|SessionEntry/.test(t)) return; f(...a) }
+console.info = filtre(console.info.bind(console))
+console.warn = filtre(console.warn.bind(console))
+console.error = filtre(console.error.bind(console))
 import makeWASocket, { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } from '@whiskeysockets/baileys'
 import pino from 'pino'
 import readline from 'readline'
@@ -84,7 +88,7 @@ async function demarrer() {
       return
     }
     try {
-      console.log('▶️ commande :', nom); await cmd.run({ sock, msg, jid, args, commandes, config }); console.log('✅ terminé :', nom)
+      console.log('▶️ commande :', nom); await sock.sendMessage(jid, { react: { text: '🎃', key: msg.key } }).catch(() => {}); await cmd.run({ sock, msg, jid, args, commandes, config }); console.log('✅ terminé :', nom)
     } catch (e) {
       console.log('⚠️ Erreur dans .' + nom, '-', e.message)
       await sock.sendMessage(jid, { text: '⚠️ Une erreur est survenue avec cette commande.' })

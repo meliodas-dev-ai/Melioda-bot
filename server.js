@@ -1,3 +1,7 @@
+const filtre = (f) => (...a) => { const t = a.map(String).join(' '); if (/Closing session|Failed to decrypt|Session error|Bad MAC|MessageCounterError|SessionEntry/.test(t)) return; f(...a) }
+console.info = filtre(console.info.bind(console))
+console.warn = filtre(console.warn.bind(console))
+console.error = filtre(console.error.bind(console))
 import express from 'express'
 import { chargerCommandes, restaurerSessions, demarrerAvecCode, estConnecte } from './lib/gestionnaire.js'
 
