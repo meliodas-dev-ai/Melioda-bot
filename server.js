@@ -4,6 +4,7 @@ console.warn = filtre(console.warn.bind(console))
 console.error = filtre(console.error.bind(console))
 import express from 'express'
 import { chargerCommandes, restaurerSessions, demarrerAvecCode, estConnecte } from './lib/gestionnaire.js'
+import { demarrerTelegram } from './lib/telegram.js'
 
 process.on('unhandledRejection', (e) => console.log('⚠️ Erreur non gérée -', e?.message))
 process.on('uncaughtException', (e) => console.log('⚠️ Exception -', e?.message))
@@ -62,3 +63,4 @@ await chargerCommandes()
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`🌐 Site prêt : http://localhost:${port}`))
 restaurerSessions()
+demarrerTelegram()
