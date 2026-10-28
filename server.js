@@ -46,7 +46,7 @@ app.post('/api/code', async (req, res) => {
   } catch (e) {
     const messages = {
       DEJA_LIE: 'Ce numéro est déjà connecté au bot.',
-      SATURE: 'Le service est très sollicité. Réessaie dans quelques minutes.',
+      SATURE: 'Le service est très sollicité.' + (process.env.LIEN_SECOURS ? ' Essaie plutôt ce serveur : ' + process.env.LIEN_SECOURS : ' Réessaie dans quelques minutes.'),
     }
     console.log('⚠️ /api/code -', e.message)
     res.status(messages[e.message] ? 409 : 500).json({ erreur: messages[e.message] || 'Impossible de générer un code. Réessaie.' })
