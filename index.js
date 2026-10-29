@@ -88,7 +88,7 @@ async function demarrer() {
       return
     }
     try {
-      console.log('▶️ commande :', nom); await sock.sendMessage(jid, { react: { text: '🎃', key: msg.key } }).catch(() => {}); await cmd.run({ sock, msg, jid, args, commandes, config }); console.log('✅ terminé :', nom)
+      console.log('▶️ commande :', nom); sock.sendMessage(jid, { react: { text: '🎃', key: msg.key } }).catch(() => {}); await cmd.run({ sock, msg, jid, args, commandes, config }); console.log('✅ terminé :', nom)
     } catch (e) {
       console.log('⚠️ Erreur dans .' + nom, '-', e.message)
       await sock.sendMessage(jid, { text: '⚠️ Une erreur est survenue avec cette commande.' })
