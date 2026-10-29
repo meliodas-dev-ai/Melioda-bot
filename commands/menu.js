@@ -1,6 +1,6 @@
 import fs from 'fs'
-import { police } from '../lib/police.js'
-import { lire } from '../lib/db.js'
+import { police, policeGras } from '../lib/police.js'
+import { lire, ecrire } from '../lib/db.js'
 import { categories } from '../lib/categories.js'
 
 const SOUS = [
@@ -29,6 +29,7 @@ export default {
     const autres = noms.filter((n) => !connus.has(n)).sort()
     const cats = autres.length ? [...categories, ['✨', 'OTHERS', autres]] : categories
     const present = (liste) => liste.filter((n) => noms.includes(n)).sort()
+    const p = config.prefix
 
     const tape = String(nom || '').toLowerCase()
     let cle = ''
@@ -37,23 +38,29 @@ export default {
     else cle = String(args[0] || '').toLowerCase()
     cle = SYNONYMES[cle] || cle
 
-    const utilisateur = police((msg.pushName || 'USER').toUpperCase())
+    if (msg.key.fromMe && msg.pushName && lire('nomProprietaire', null) !== msg.pushName) {
+      ecrire('nomProprietaire', msg.pushName)
+    }
+    const proprietaire = String(lire('nomProprietaire', null) || sock.user?.name || 'UTILISATEUR').toUpperCase()
     const mode = lire('mode', {}).prive ? 'SELF' : 'PUBLIC'
-    const p = config.prefix
 
-    let t = `┏━━━『 ${police('MELIODAS BOT')} 』━━━┓\n┃\n`
-    t += `┃ 𖤐 ${police('BLACK FURY SYSTEM')}\n┃\n`
-    t += `┃ ▸ ${police('USER')}     : ${utilisateur}\n`
-    t += `┃ ▸ ${police('MODE')}     : ${police(mode)}\n`
-    t += `┃ ▸ ${police('PREFIX')}  : ${p}\n`
-    t += `┃ ▸ ${police('VERSION')} : ${police(config.version)}\n`
-    t += `┃ ▸ ${police('COMMANDS')} : ${police(String(noms.length))}\n`
-    t += `┃\n┗━━━━━━━━━━━━━━━━━━━━┛\n\n`
+    const ligne = (etiquette, valeur) => `╟─⟢ ${policeGras(etiquette.padEnd(8))}: ${valeur}\n`
+    let t = `╔═══〔 𖤐 ${police('MELIODAS')} MD 𖤐 〕═══╗\n║\n`
+    t += ligne('USER', policeGras(proprietaire))
+    t += ligne('MODE', policeGras(mode))
+    t += ligne('PREFIX', p)
+    t += ligne('VERSION', policeGras(String(config.version)))
+    t += ligne('COMMANDS', policeGras(String(noms.length)))
+    t += `║\n╚════════════════════════╝\n\n`
 
-    const bloc = ([icone, titre, liste]) => {
-      const l = present(liste)
-      if (!l.length) return ''
-      return `╭━━━『 ${icone} ${police(titre)} 』\n┃\n${l.map((n) => `┃ ⌬ ${p}${n}`).join('\n')}\n╰━━━━━━━━━━━━━━━━━━╯\n\n`
+    const liste = (icone, titre, lignes) =>
+      `╭━━━⟢〔 ${icone} ${policeGras(titre)} 〕\n┃\n${lignes
+        .map((l, i) => `${i === lignes.length - 1 ? '┗' : '┣'}⸙ ${l}`)
+        .join('\n')}\n╰━━━━━━━━━━━━━━━━━━━━━━\n\n`
+
+    const bloc = ([icone, titre, noms2]) => {
+      const l = present(noms2)
+      return l.length ? liste(icone, titre, l.map((n) => p + n)) : ''
     }
 
     const sous = SOUS.find(([k]) => k === cle)
@@ -61,20 +68,22 @@ export default {
       for (const c of cats) t += bloc(c)
     } else if (sous) {
       const c = cats.find((x) => x[1] === sous[1])
-      t += c && bloc(c) ? bloc(c) : `⚠️ ${police('AUCUNE COMMANDE ICI')}\n\n`
+      t += (c && bloc(c)) || `⚠️ ${policeGras('AUCUNE COMMANDE ICI')}\n\n`
     } else {
       const lignes = []
-      for (const n of ['ping', 'pair']) if (noms.includes(n)) lignes.push(`┃ ⌬ ${p}${n}`)
+      for (const n of ['ping', 'pair']) if (noms.includes(n)) lignes.push(p + n)
       for (const [k, titre] of SOUS) {
         const c = cats.find((x) => x[1] === titre)
-        if (c && present(c[2]).length) lignes.push(`┃ ⌬ ${p}${k}menu`)
+        if (c && present(c[2]).length) lignes.push(`${p}${k}menu`)
       }
-      lignes.push(`┃ ⌬ ${p}allmenu`)
-      t += `╭━━━『 📂 ${police('MAIN MENU')} 』\n┃\n${lignes.join('\n')}\n╰━━━━━━━━━━━━━━━━━━╯\n\n`
+      lignes.push(`${p}allmenu`)
+      t += liste('📂', 'MAIN MENU', lignes)
     }
 
-    t += `┏━━━━━━━━━━━━━━━━━━━━┓\n┃\n┃ 𖤐 ${police('POWERED BY')}\n┃      ${police('MELIODAS DEV')}\n┃\n`
-    t += `┃ 〘 ${police('LA PUISSANCE SE FORGE')} 〙\n┃\n┗━━━━━『 ${police('BLACK FURY')} 』━━━━━┛`
+    t += `╔════════════════════════╗\n║\n`
+    t += `║  ⸙ ${policeGras('POWERED BY')}\n║  ⟢ ${policeGras('MELIODAS DEV')}\n║\n`
+    t += `║ 〔 ${policeGras('LA PUISSANCE SE FORGE')} 〕\n║\n`
+    t += `╚═══════⟢ ${policeGras('MD')} ⟣═══════╝`
 
     let image
     try {
