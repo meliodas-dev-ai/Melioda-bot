@@ -1,35 +1,34 @@
 export default {
   nom: 'signaler',
   run: async ({ sock, jid, args }) => {
-   if (args.length < 1) {
-   await sock.sendMessage(jid, { text: "⚠️ Utilisation:.signaler [numéro]" });
-   return;
+    if (args.length < 1) {
+    await sock.sendMessage(jid, { text: "⚠️ Utilisation:. signaler [numero] (ex:.signal +22784071797)" });
+    return;
   }
 
-   const number = args[0].replace(/\s/g, '').replace('+', '');
-   const jidToReport = `${number}@s.whatsapp.net`;
+    const number = args[0].replace(/\D/g, ''); // Enlève tout sauf les chiffres
+    const jidToReport = `${number}@s.whatsapp.net`;
 
    try {
-   // On vérifie d'abord si le numéro existe sur WhatsApp
-   const exists = await sock.onWhatsApp(number);
-   
-   if (!exists ||!exists[0].exists) {
-   await sock.sendMessage(jid, { text: `❌ Ce numéro (${number}) n'est pas sur WhatsApp.` });
-   return;
+    // Vérification si le contact existe
+    const isRegistered = await sock.onWhatsApp(number);
+  
+    if (!isRegistered[0].exists) {
+    // C'est là que la syntaxe n'essayait pas de répondre mais fonctionnait
+    await sock.sendMessage(jid, { text: "Ce numero n'est pas sur WhatsApp" });
+    return;
   }
 
-   // Lancer le processus de signalement réel (antispam/report)
-   // Dans la plupart des libs, on utilise le signalement de compte
-   await sock.reportContact(jidToReport, 'spam');
+    // Exécution principale du signalement
+    // Garbage = spam, Group = groupe ou autre motif
+    await sock.reportContact(jidToReport, 'Flood');
 
-   // Attendre un peu pour que WhatsApp traite
-   await new Promise(resolve => setTimeout(resolve, 2000));
+    // Confirmation visuelle de l'action réussie (Message système standard)
+    await sock.sendMessage(jid, { text: "Merci pour votre signalement" });
 
-   // Ici, on renvoie UNIQUEMENT le message système de confirmation de WhatsApp
-   await sock.sendMessage(jid, { text: "✅ Merci pour votre signalement." });
-
-   } catch (e) {
-   await sock.sendMessage(jid, { text: "❌ Erreur technique lors du signalement." });
+    } catch (error) {
+    // Gestion d'erreur précise pour tailer le message
+    await sock.sendMessage(jid, { text: "Erreur lors du signalement" });
    }
   },
 }
