@@ -13,7 +13,6 @@ const SOUS = [
   ['date', 'TIME & DATE'],
   ['media', 'STICKERS'],
   ['info', 'BOT INFO'],
-  ['stymenu', 'STYMENU'],
   ['owner', 'ADMIN TOOLS'],
 ]
 const SYNONYMES = {
@@ -77,6 +76,7 @@ export default {
         const c = cats.find((x) => x[1] === titre)
         if (c && present(c[2]).length) lignes.push(`${p}${k}menu`)
       }
+      if (noms.includes('stymenu')) lignes.push(`${p}stymenu`)
       lignes.push(`${p}allmenu`)
       t += liste('📂', 'MAIN MENU', lignes)
     }
