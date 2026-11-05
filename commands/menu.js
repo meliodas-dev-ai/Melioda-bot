@@ -13,7 +13,7 @@ const SOUS = [
   ['date', 'TIME & DATE'],
   ['media', 'STICKERS'],
   ['info', 'BOT INFO'],
-  ['autostyle', 'AUTO STYLE'],
+  ['stymenu', 'STYMENU'],
   ['owner', 'ADMIN TOOLS'],
 ]
 const SYNONYMES = {

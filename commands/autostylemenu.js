@@ -6,7 +6,7 @@ const PAR_PAGE = 25
 
 export default {
   nom: 'autostylemenu',
-  alias: ['autostyle'],
+  alias: ['autostyle', 'stymenu', 'styles2'],
   run: async ({ sock, jid, args, config }) => {
     const pages = Math.ceil(STYLES.length / PAR_PAGE)
     const page = Math.max(1, parseInt(args[0], 10) || 1)
