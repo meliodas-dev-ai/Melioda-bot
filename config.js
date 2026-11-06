@@ -6,6 +6,6 @@ export default {
   version: '1.0',
   developpeur: 'MELIODAS BLACK FURY',
   nomBot: 'MELIODAS BOT',
-  signature: 'POWERED BY MELIODAS BLACK FURY',
+  signature: 'POWERED BY MELIODAS DEV',
   devise: 'LA PUISSANCE SE FORGE.',
 }
