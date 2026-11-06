@@ -14,81 +14,70 @@
     display: flex; justify-content: center; padding: 28px 16px 48px;
   }
   main { width: 100%; max-width: 440px; display: grid; gap: 16px; }
-  .verre {
-    background: var(--verre); border: 1px solid var(--bord); border-radius: 18px;
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px;
-  }
+  .verre { background: var(--verre); border: 1px solid var(--bord); border-radius: 18px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px; }
   .entete { display: flex; align-items: center; justify-content: space-between; }
   .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); }
-  .pastille {
-    display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700;
-    padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); color: #fff;
-  }
+  .pastille { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); }
   .point { width: 9px; height: 9px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 10px #3ddc84; }
   h2 { margin: 0 0 6px; font-size: 1.2rem; font-weight: 800; }
   .sous { margin: 0 0 18px; color: var(--texte2); font-size: .95rem; }
   label { display: block; margin-bottom: 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
-  .champs { display: grid; grid-template-columns: 96px 1fr; gap: 10px; margin-bottom: 18px; }
-  .champs input, .champs .fixe {
+  .champs { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+  select, input[type=tel] {
     width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord);
-    background: rgba(0,0,0,.45); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 0 14px; outline: none;
+    background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none;
   }
-  .champs input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
-  .champs .fixe { display: flex; align-items: center; justify-content: center; color: var(--rouge); }
-  .accord { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; color: var(--texte2); margin-bottom: 18px; }
-  .accord input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--rouge); }
+  select option { background: #111; color: #fff; }
+  select:focus, input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
+  .apercu { font-size: .9rem; color: var(--texte2); }
+  .apercu b { color: var(--rouge); }
+  .conditions { margin: 0 0 14px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
   .bouton {
     width: 100%; height: 58px; border-radius: 14px; cursor: pointer;
     background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff;
     font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-    box-shadow: 0 0 22px rgba(255,59,79,.35); transition: transform .15s, background .2s;
+    box-shadow: 0 0 22px rgba(255,59,79,.35);
   }
-  .bouton:hover { background: rgba(255,59,79,.35); }
   .bouton:active { transform: scale(.98); }
   .bouton:disabled { opacity: .5; cursor: not-allowed; }
-  .conditions { margin: 0 0 16px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
   #resultat:empty { display: none; }
   .code-zone { text-align: center; }
-  .code {
-    margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800;
-    letter-spacing: 8px; color: #fff; padding: 18px 10px; border-radius: 14px;
-    background: rgba(0,0,0,.5); border: 1px dashed var(--rouge);
-  }
-  .copier {
-    width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff;
-    background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px;
-    text-transform: uppercase; box-shadow: 0 0 24px rgba(255,59,79,.5);
-  }
+  .code { margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800; letter-spacing: 8px; color: #fff; padding: 18px 10px; border-radius: 14px; background: rgba(0,0,0,.5); border: 1px dashed var(--rouge); }
+  .copier { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff; background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 24px rgba(255,59,79,.5); }
   .copier:active { transform: scale(.98); }
-  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 16px 0 6px; text-align: left; }
-  .etat { margin-top: 14px; font-weight: 700; color: #fff; }
+  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 16px 0 6px; }
+  .etat { margin-top: 14px; font-weight: 700; }
   .ok { color: #3ddc84; }
   .erreur { color: #ff8a96; font-weight: 700; text-align: center; }
   .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .liens a {
-    display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700;
-    padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre);
-  }
+  .liens a { display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700; padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre); }
   .liens a:hover { border-color: var(--rouge); }
   .pied { text-align: center; font-size: .8rem; color: #9a9aa6; }
+  .stat { text-align: center; font-weight: 700; color: var(--texte2); }
+  .stat-num { color: var(--rouge); font-size: 1.3rem; margin: 0 4px; }
 </style>
 </head>
 <body>
 <main>
   <div class="verre entete">
     <div class="marque">MELIODAS BOT</div>
-    <div class="pastille"><span class="point"></span> En ligne</div>
+    <div class="pastille"><span class="point"></span><span id="hautTxt">En ligne</span></div>
   </div>
-
+  <div class="verre stat">👥 <span class="stat-num" id="nb">…</span> comptes connectés</div>
   <div class="verre">
     <h2>Connecter ton compte</h2>
-    <p class="sous">Saisis ton numéro WhatsApp, puis le code apparaît ici.</p>
+    <p class="sous">Choisis ton pays, saisis ton numéro, puis génère ton code.</p>
 
-    <label for="numero">Numéro WhatsApp</label>
+    <label for="pays">Pays</label>
     <div class="champs">
-      <div class="fixe">+243</div>
-      <input id="numero" type="tel" inputmode="numeric" placeholder="9999585890" autocomplete="tel">
+      <select id="pays"></select>
     </div>
+
+    <label for="numero">Numéro WhatsApp (sans l'indicatif)</label>
+    <div class="champs">
+      <input id="numero" type="tel" inputmode="numeric" placeholder="900457430" autocomplete="tel">
+    </div>
+    <p class="apercu" id="apercu"></p>
 
     <ul class="conditions">
       <li>Le bot répondra aux commandes depuis ton compte WhatsApp.</li>
@@ -96,7 +85,6 @@
       <li>WhatsApp peut restreindre les bots non officiels : tu en assumes le risque.</li>
       <li>Tu peux te déconnecter à tout moment (Appareils connectés, ou .logout).</li>
     </ul>
-
     <p class="sous">En cliquant sur le bouton, tu acceptes ces conditions.</p>
 
     <button id="envoyer" class="bouton">Générer mon code</button>
@@ -112,10 +100,73 @@
 </main>
 
 <script>
+  const PAYS = [
+    ['🇨🇩', 'Congo (RDC)', '243'], ['🇨🇬', 'Congo (Brazzaville)', '242'], ['🇨🇲', 'Cameroun', '237'],
+    ['🇨🇮', "Côte d'Ivoire", '225'], ['🇸🇳', 'Sénégal', '221'], ['🇲🇱', 'Mali', '223'],
+    ['🇧🇫', 'Burkina Faso', '226'], ['🇳🇪', 'Niger', '227'], ['🇹🇩', 'Tchad', '235'],
+    ['🇬🇦', 'Gabon', '241'], ['🇧🇮', 'Burundi', '257'], ['🇷🇼', 'Rwanda', '250'],
+    ['🇺🇬', 'Ouganda', '256'], ['🇰🇪', 'Kenya', '254'], ['🇹🇿', 'Tanzanie', '255'],
+    ['🇪🇹', 'Éthiopie', '251'], ['🇸🇴', 'Somalie', '252'], ['🇸🇩', 'Soudan', '249'],
+    ['🇪🇬', 'Égypte', '20'], ['🇲🇦', 'Maroc', '212'], ['🇩🇿', 'Algérie', '213'],
+    ['🇹🇳', 'Tunisie', '216'], ['🇱🇾', 'Libye', '218'], ['🇳🇬', 'Nigeria', '234'],
+    ['🇬🇭', 'Ghana', '233'], ['🇹🇬', 'Togo', '228'], ['🇧🇯', 'Bénin', '229'],
+    ['🇬🇳', 'Guinée', '224'], ['🇲🇬', 'Madagascar', '261'], ['🇦🇴', 'Angola', '244'],
+    ['🇿🇦', 'Afrique du Sud', '27'], ['🇿🇲', 'Zambie', '260'], ['🇿🇼', 'Zimbabwe', '263'],
+    ['🇫🇷', 'France', '33'], ['🇧🇪', 'Belgique', '32'], ['🇨🇭', 'Suisse', '41'],
+    ['🇨🇦', 'Canada', '1'], ['🇺🇸', 'États-Unis', '1'], ['🇬🇧', 'Royaume-Uni', '44'],
+    ['🇩🇪', 'Allemagne', '49'], ['🇮🇹', 'Italie', '39'], ['🇪🇸', 'Espagne', '34'],
+    ['🇵🇹', 'Portugal', '351'], ['🇳🇱', 'Pays-Bas', '31'], ['🇧🇷', 'Brésil', '55'],
+    ['🇲🇽', 'Mexique', '52'], ['🇮🇳', 'Inde', '91'], ['🇵🇰', 'Pakistan', '92'],
+    ['🇧🇩', 'Bangladesh', '880'], ['🇨🇳', 'Chine', '86'], ['🇯🇵', 'Japon', '81'],
+    ['🇹🇷', 'Turquie', '90'], ['🇸🇦', 'Arabie saoudite', '966'], ['🇦🇪', 'Émirats arabes unis', '971'],
+  ]
+
+  const pays = document.getElementById('pays')
   const numero = document.getElementById('numero')
+  const apercu = document.getElementById('apercu')
   const bouton = document.getElementById('envoyer')
   const resultat = document.getElementById('resultat')
   let minuteur = null
+
+  PAYS.forEach(([drapeau, nom, code]) => {
+    const o = document.createElement('option')
+    o.value = code
+    o.textContent = `${drapeau} ${nom} (+${code})`
+    pays.appendChild(o)
+  })
+  pays.value = '243'
+
+  function detecter(d) {
+    let t = null
+    for (const p of PAYS) if (d.startsWith(p[2]) && (!t || p[2].length > t[2].length)) t = p
+    return t
+  }
+
+  function saisie() {
+    let d = numero.value.replace(/\D/g, '')
+    if (d.startsWith('00')) d = d.slice(2)
+    return d
+  }
+
+  function complet() {
+    const code = pays.value
+    const d = saisie()
+    if (d.startsWith(code)) return d
+    return code + d.replace(/^0+/, '')
+  }
+
+  function majApercu(detect = false) {
+    const d = saisie()
+    const t = detecter(d)
+    if (detect && t && d.length >= t[2].length && pays.value !== t[2]) pays.value = t[2]
+    const n = complet()
+    const p = PAYS.find(x => x[2] === pays.value)
+    document.getElementById('hautTxt').textContent = p ? p[0] + ' ' + p[1] + ' · +' + p[2] : 'En ligne'
+    apercu.innerHTML = n.length > 3 ? 'Numéro complet : <b>+' + n + '</b>' : ''
+  }
+  pays.addEventListener('change', () => majApercu(false))
+  numero.addEventListener('input', () => majApercu(true))
+  majApercu(false)
 
   function afficherCode(brut) {
     const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
@@ -143,14 +194,18 @@
   bouton.addEventListener('click', async () => {
     clearInterval(minuteur)
     resultat.innerHTML = ''
-    const n = numero.value.replace(/\D/g, '')
+    const n = complet()
+    if (n.length < 9) {
+      resultat.innerHTML = '<p class="erreur">Numéro trop court.</p>'
+      return
+    }
     bouton.disabled = true
     bouton.textContent = 'Génération…'
     try {
       const rep = await fetch('/api/code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ numero: '243' + n.replace(/^243/, ''), consentement: true }),
+        body: JSON.stringify({ numero: n, consentement: true }),
       })
       const donnees = await rep.json()
       if (!rep.ok) throw new Error(donnees.erreur || 'Erreur')
@@ -159,7 +214,7 @@
       minuteur = setInterval(async () => {
         essais++
         try {
-          const s = await (await fetch('/api/statut/243' + n.replace(/^243/, ''))).json()
+          const s = await (await fetch('/api/statut/' + n)).json()
           if (s.connecte) {
             clearInterval(minuteur)
             document.getElementById('etat').innerHTML = '<span class="ok">✅ Compte connecté. Envoie .menu sur WhatsApp.</span>'
@@ -173,6 +228,14 @@
     bouton.disabled = false
     bouton.textContent = 'Générer mon code'
   })
+  async function majStats() {
+    try {
+      const r = await (await fetch('/api/stats')).json()
+      document.getElementById('nb').textContent = r.connectes
+    } catch {}
+  }
+  majStats()
+  setInterval(majStats, 30000)
 </script>
 </body>
 </html>

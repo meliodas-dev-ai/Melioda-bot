@@ -3,7 +3,7 @@ console.info = filtre(console.info.bind(console))
 console.warn = filtre(console.warn.bind(console))
 console.error = filtre(console.error.bind(console))
 import express from 'express'
-import { chargerCommandes, restaurerSessions, demarrerAvecCode, estConnecte } from './lib/gestionnaire.js'
+import { chargerCommandes, restaurerSessions, demarrerAvecCode, estConnecte, nombreConnectes } from './lib/gestionnaire.js'
 import { demarrerTelegram } from './lib/telegram.js'
 
 process.on('unhandledRejection', (e) => console.log('⚠️ Erreur non gérée -', e?.message))
@@ -59,6 +59,11 @@ app.get('/api/statut/:numero', (req, res) => {
 })
 
 app.get('/healthz', (req, res) => res.send('ok'))
+app.get('/api/stats', (req, res) => {
+  if (!autorise('stats:' + req.ip, 30, 60 * 1000)) return res.status(429).json({})
+  res.json({ connectes: nombreConnectes(), max: Number(process.env.MAX_COMPTES || 50) })
+})
+
 await chargerCommandes()
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`🌐 Site prêt : http://localhost:${port}`))
