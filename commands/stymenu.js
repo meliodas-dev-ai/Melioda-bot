@@ -41,7 +41,7 @@ export default {
       '',
       `╔════════════════════════╗`,
       `║  ⸙ ${policeGras('POWERED BY')}`,
-      `║  ⟢ ${policeGras('MELIODAS DEV')}`,
+      `║  ⟢ ${policeGras('MELIODAS DEV TECH')}`,
       `╚═══════⟢ ${policeGras('MD')} ⟣═══════╝`,
     ].join('\n')
 

@@ -82,7 +82,7 @@ export default {
     }
 
     t += `╔════════════════════════╗\n║\n`
-    t += `║  ⸙ ${policeGras('POWERED BY')}\n║  ⟢ ${policeGras('MELIODAS DEV')}\n║\n`
+    t += `║  ⸙ ${policeGras('POWERED BY')}\n║  ⟢ ${policeGras('MELIODAS DEV TECH')}\n║\n`
     t += `║ 〔 ${policeGras('LA PUISSANCE SE FORGE')} 〕\n║\n`
     t += `╚═══════⟢ ${policeGras('MD')} ⟣═══════╝`
 
