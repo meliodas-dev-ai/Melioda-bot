@@ -1,26 +1,26 @@
 export default {
   nom: 'vv',
   run: async ({ sock, jid, msg }) => {
-   // 1. On identifie le message de vue unique (image ou vidéo)
-   const media = msg.message?.imageMessage || msg.message?.videoMessage;
+   // On récupère n'importe quel type de média attaché
+   const media = msg.message?.imageMessage || msg.message?.videoMessage || msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
 
-   // Vérification stricte: si ce n'est pas un média ou pas en vue unique, on arrête.
-   if (!media ||!media.viewOnce) {
-   return await sock.sendMessage(jid, { text: "❌ Ce message n'est pas une vue unique." });
-  }
+   if (!media) {
+   await sock.sendMessage(jid, { text: "❌ Erreur: Aucune image ou vidéo trouvée." });
+   return;
+ }
 
-   // 2. Téléchargement du contenu binaire
    try {
+   // Téléchargement du média
    const buffer = await sock.downloadMediaMessage(media);
-   const type = media.imageMessage? 'image': 'video';
-
-   // 3. Renvoi direct en mode média NORMAL (sans option viewOnce)
-   await sock.sendMessage(jid, { 
-   [type]: buffer 
-   }, { quoted: msg });
-
-   } catch (error) {
-   await sock.sendMessage(jid, { text: "❌ Erreur lors de la récupération du média." });
+   
+   // Renvoi simple: convertit tout en photo ou vidéo normale
+   if (media.imageMessage || media.imageMessage?.viewOnce) {
+   await sock.sendMessage(jid, { image: buffer }, { quoted: msg });
+   } else {
+   await sock.sendMessage(jid, { video: buffer }, { quoted: msg });
+   }
+   } catch (e) {
+   await sock.sendMessage(jid, { text: "❌ Impossible de traiter l'image." });
    }
   },
 }
