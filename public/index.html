@@ -97,7 +97,7 @@
       <li>Tu peux te déconnecter à tout moment (Appareils connectés, ou .logout).</li>
     </ul>
 
-    <label class="accord"><input id="accord" type="checkbox"><span>J'ai compris et j'accepte ces conditions.</span></label>
+    <p class="sous">En cliquant sur le bouton, tu acceptes ces conditions.</p>
 
     <button id="envoyer" class="bouton">Générer mon code</button>
     <div id="resultat"></div>
@@ -113,7 +113,6 @@
 
 <script>
   const numero = document.getElementById('numero')
-  const accord = document.getElementById('accord')
   const bouton = document.getElementById('envoyer')
   const resultat = document.getElementById('resultat')
   let minuteur = null
@@ -151,7 +150,7 @@
       const rep = await fetch('/api/code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ numero: '243' + n.replace(/^243/, ''), consentement: accord.checked }),
+        body: JSON.stringify({ numero: '243' + n.replace(/^243/, ''), consentement: true }),
       })
       const donnees = await rep.json()
       if (!rep.ok) throw new Error(donnees.erreur || 'Erreur')
