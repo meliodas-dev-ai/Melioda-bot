@@ -3,80 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>MELIODAS BOT · Connexion</title>
 <style>
   :root { --rouge: #ff3b4f; --rouge-doux: rgba(255,59,79,.18); --verre: rgba(255,255,255,.05); --bord: rgba(255,255,255,.12); --texte: #ffffff; --texte2: #d6d6de; }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; color: var(--texte);
-    font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 16px; font-weight: 500;
-    background: radial-gradient(circle at 50% -10%, rgba(255,59,79,.35), transparent 55%), #08080b;
-    display: flex; justify-content: center; padding: 28px 16px 48px;
-  }
+  body { margin: 0; min-height: 100vh; color: var(--texte); font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 16px; background: radial-gradient(circle at 50% -10%, rgba(255,59,79,.35), transparent 55%), #08080b; display: flex; justify-content: center; padding: 28px 16px 48px; }
   main { width: 100%; max-width: 440px; display: grid; gap: 16px; }
   .verre { background: var(--verre); border: 1px solid var(--bord); border-radius: 18px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px; }
   .entete { display: flex; align-items: center; justify-content: space-between; }
   .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); }
   .pastille { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); }
   .point { width: 9px; height: 9px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 10px #3ddc84; }
+  .stat { text-align: center; font-weight: 700; color: var(--texte2); }
+  .stat span { color: var(--rouge); font-size: 1.3rem; margin: 0 4px; }
+  .tete { text-align: center; font-size: 1.1rem; font-weight: 800; padding: 12px; margin-bottom: 16px; border-radius: 14px; background: rgba(255,59,79,.12); border: 1px solid var(--rouge); }
   h2 { margin: 0 0 6px; font-size: 1.2rem; font-weight: 800; }
-  .sous { margin: 0 0 18px; color: var(--texte2); font-size: .95rem; }
-  label { display: block; margin-bottom: 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
-  .champs { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
-  select, input[type=tel] {
-    width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord);
-    background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none;
-  }
+  .sous { margin: 0 0 16px; color: var(--texte2); font-size: .95rem; }
+  label { display: block; margin: 0 0 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
+  select, input { width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord); background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none; margin-bottom: 16px; }
   select option { background: #111; color: #fff; }
   select:focus, input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
-  .apercu { font-size: .9rem; color: var(--texte2); }
+  .apercu { font-size: .9rem; color: var(--texte2); margin: -6px 0 14px; min-height: 1em; }
   .apercu b { color: var(--rouge); }
   .conditions { margin: 0 0 14px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
-  .bouton {
-    width: 100%; height: 58px; border-radius: 14px; cursor: pointer;
-    background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff;
-    font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-    box-shadow: 0 0 22px rgba(255,59,79,.35);
-  }
+  .bouton { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 22px rgba(255,59,79,.35); }
   .bouton:active { transform: scale(.98); }
   .bouton:disabled { opacity: .5; cursor: not-allowed; }
   #resultat:empty { display: none; }
-  .code-zone { text-align: center; }
-  .code { margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800; letter-spacing: 8px; color: #fff; padding: 18px 10px; border-radius: 14px; background: rgba(0,0,0,.5); border: 1px dashed var(--rouge); }
+  .code-zone { text-align: center; margin-top: 18px; }
+  .code { margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800; letter-spacing: 8px; padding: 18px 10px; border-radius: 14px; background: rgba(0,0,0,.5); border: 1px dashed var(--rouge); }
   .copier { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff; background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 24px rgba(255,59,79,.5); }
-  .copier:active { transform: scale(.98); }
   .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 16px 0 6px; }
   .etat { margin-top: 14px; font-weight: 700; }
   .ok { color: #3ddc84; }
   .erreur { color: #ff8a96; font-weight: 700; text-align: center; }
   .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .liens a { display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700; padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre); }
-  .liens a:hover { border-color: var(--rouge); }
   .pied { text-align: center; font-size: .8rem; color: #9a9aa6; }
-  .stat { text-align: center; font-weight: 700; color: var(--texte2); }
-  .stat-num { color: var(--rouge); font-size: 1.3rem; margin: 0 4px; }
 </style>
 </head>
 <body>
 <main>
   <div class="verre entete">
     <div class="marque">MELIODAS BOT</div>
-    <div class="pastille"><span class="point"></span><span id="hautTxt">En ligne</span></div>
+    <div class="pastille"><span class="point"></span> En ligne</div>
   </div>
-  <div class="verre stat">👥 <span class="stat-num" id="nb">…</span> comptes connectés</div>
+
+  <div class="verre stat">👥 <span id="nb">…</span> comptes connectés</div>
+
   <div class="verre">
+    <div class="tete" id="tete">🇨🇩 Congo RDC · +243</div>
     <h2>Connecter ton compte</h2>
-    <p class="sous">Choisis ton pays, saisis ton numéro, puis génère ton code.</p>
+    <p class="sous">Tape ton numéro avec son indicatif (ex : 243900457430), ou choisis ton pays.</p>
 
     <label for="pays">Pays</label>
-    <div class="champs">
-      <select id="pays"></select>
-    </div>
+    <select id="pays"></select>
 
-    <label for="numero">Numéro WhatsApp (sans l'indicatif)</label>
-    <div class="champs">
-      <input id="numero" type="tel" inputmode="numeric" placeholder="900457430" autocomplete="tel">
-    </div>
+    <label for="numero">Numéro WhatsApp</label>
+    <input id="numero" type="tel" inputmode="tel" placeholder="+243 900 457 430" autocomplete="tel">
     <p class="apercu" id="apercu"></p>
 
     <ul class="conditions">
@@ -95,13 +80,12 @@
     <a href="https://whatsapp.com/channel/0029Vb7EemV9cDDh7Uhr2i2b" target="_blank" rel="noopener">📢 Chaîne WhatsApp</a>
     <a href="https://t.me/MeliodasCodeBot" target="_blank" rel="noopener">✈️ Bot Telegram</a>
   </div>
-
   <div class="pied">Service indépendant, non affilié à WhatsApp.</div>
 </main>
 
 <script>
   const PAYS = [
-    ['🇨🇩', 'Congo (RDC)', '243'], ['🇨🇬', 'Congo (Brazzaville)', '242'], ['🇨🇲', 'Cameroun', '237'],
+    ['🇨🇩', 'Congo RDC', '243'], ['🇨🇬', 'Congo Brazzaville', '242'], ['🇨🇲', 'Cameroun', '237'],
     ['🇨🇮', "Côte d'Ivoire", '225'], ['🇸🇳', 'Sénégal', '221'], ['🇲🇱', 'Mali', '223'],
     ['🇧🇫', 'Burkina Faso', '226'], ['🇳🇪', 'Niger', '227'], ['🇹🇩', 'Tchad', '235'],
     ['🇬🇦', 'Gabon', '241'], ['🇧🇮', 'Burundi', '257'], ['🇷🇼', 'Rwanda', '250'],
@@ -124,6 +108,7 @@
   const pays = document.getElementById('pays')
   const numero = document.getElementById('numero')
   const apercu = document.getElementById('apercu')
+  const tete = document.getElementById('tete')
   const bouton = document.getElementById('envoyer')
   const resultat = document.getElementById('resultat')
   let minuteur = null
@@ -136,37 +121,42 @@
   })
   pays.value = '243'
 
-  function detecter(d) {
-    let t = null
-    for (const p of PAYS) if (d.startsWith(p[2]) && (!t || p[2].length > t[2].length)) t = p
-    return t
-  }
-
   function saisie() {
     let d = numero.value.replace(/\D/g, '')
     if (d.startsWith('00')) d = d.slice(2)
     return d
   }
 
+  function detecter(d) {
+    let t = null
+    for (const p of PAYS) if (d.startsWith(p[2]) && (!t || p[2].length > t[2].length)) t = p
+    return t
+  }
+
   function complet() {
-    const code = pays.value
     const d = saisie()
+    const code = pays.value
     if (d.startsWith(code)) return d
     return code + d.replace(/^0+/, '')
   }
 
-  function majApercu(detect = false) {
+  function majAffichage(depuisSaisie) {
     const d = saisie()
-    const t = detecter(d)
-    if (detect && t && d.length >= t[2].length && pays.value !== t[2]) pays.value = t[2]
+    if (depuisSaisie) {
+      const t = detecter(d)
+      if (t && d.length > t[2].length) pays.value = t[2]
+    }
+    const p = PAYS.find((x) => x[2] === pays.value)
+    if (p) tete.textContent = `${p[0]} ${p[1]} · +${p[2]}`
+    else if (d.length >= 1) tete.textContent = `🌍 Pays inconnu · +${d.slice(0, 3)}`
+    else tete.textContent = 'Choisis ton pays'
     const n = complet()
-    const p = PAYS.find(x => x[2] === pays.value)
-    document.getElementById('hautTxt').textContent = p ? p[0] + ' ' + p[1] + ' · +' + p[2] : 'En ligne'
-    apercu.innerHTML = n.length > 3 ? 'Numéro complet : <b>+' + n + '</b>' : ''
+    apercu.innerHTML = n.length > 3 ? `Numéro complet : <b>+${n}</b>` : ''
   }
-  pays.addEventListener('change', () => majApercu(false))
-  numero.addEventListener('input', () => majApercu(true))
-  majApercu(false)
+
+  pays.addEventListener('change', () => majAffichage(false))
+  numero.addEventListener('input', () => majAffichage(true))
+  majAffichage(false)
 
   function afficherCode(brut) {
     const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
@@ -228,6 +218,7 @@
     bouton.disabled = false
     bouton.textContent = 'Générer mon code'
   })
+
   async function majStats() {
     try {
       const r = await (await fetch('/api/stats')).json()
