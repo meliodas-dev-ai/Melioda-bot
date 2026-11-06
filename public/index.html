@@ -5,121 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MELIODAS BOT · Connexion</title>
 <style>
-  :root { color-scheme: dark; --rouge: #ff1e3c; --rouge2: #8b0018; --noir: #050507; --panneau: #0c0a0f; --texte: #f2eef5; --doux: #8f8a99; }
+  :root { --rouge: #ff3b4f; --rouge-doux: rgba(255,59,79,.18); --verre: rgba(255,255,255,.05); --bord: rgba(255,255,255,.12); --texte: #ffffff; --texte2: #d6d6de; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; min-height: 100%; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
-    color: var(--texte);
-    background: radial-gradient(ellipse at top, #2a0410 0%, var(--noir) 60%) fixed;
-    display: flex; justify-content: center; align-items: flex-start;
-    padding: 28px 16px 48px; position: relative; overflow-x: hidden;
+    margin: 0; min-height: 100vh; color: var(--texte);
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 16px; font-weight: 500;
+    background: radial-gradient(circle at 50% -10%, rgba(255,59,79,.35), transparent 55%), #08080b;
+    display: flex; justify-content: center; padding: 28px 16px 48px;
   }
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image: linear-gradient(rgba(255,30,60,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,30,60,.06) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  main { width: 100%; max-width: 440px; display: grid; gap: 16px; }
+  .verre {
+    background: var(--verre); border: 1px solid var(--bord); border-radius: 18px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px;
   }
-  body::after {
-    content: ''; position: fixed; left: 0; right: 0; height: 120px; top: -120px; pointer-events: none; z-index: 0;
-    background: linear-gradient(transparent, rgba(255,30,60,.10), transparent);
-    animation: scan 6s linear infinite;
+  .entete { display: flex; align-items: center; justify-content: space-between; }
+  .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); }
+  .pastille {
+    display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); color: #fff;
   }
-  @keyframes scan { to { transform: translateY(calc(100vh + 240px)); } }
-  main { position: relative; z-index: 1; width: 100%; max-width: 460px; }
-
-  .logo { text-align: center; margin: 8px 0 22px; }
-  .logo h1 {
-    margin: 0; font-size: 1.7rem; letter-spacing: 6px; font-weight: 800; text-transform: uppercase;
-    color: #fff; text-shadow: 0 0 8px var(--rouge), 0 0 22px rgba(255,30,60,.7), 0 0 40px rgba(255,30,60,.35);
-    animation: pulse 3.2s ease-in-out infinite;
+  .point { width: 9px; height: 9px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 10px #3ddc84; }
+  h2 { margin: 0 0 6px; font-size: 1.2rem; font-weight: 800; }
+  .sous { margin: 0 0 18px; color: var(--texte2); font-size: .95rem; }
+  label { display: block; margin-bottom: 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
+  .champs { display: grid; grid-template-columns: 96px 1fr; gap: 10px; margin-bottom: 18px; }
+  .champs input, .champs .fixe {
+    width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord);
+    background: rgba(0,0,0,.45); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 0 14px; outline: none;
   }
-  @keyframes pulse { 50% { text-shadow: 0 0 4px var(--rouge), 0 0 12px rgba(255,30,60,.5); } }
-  .logo .devise { margin-top: 8px; font-size: .75rem; letter-spacing: 4px; color: var(--rouge); opacity: .85; }
-
-  .carte {
-    position: relative; background: linear-gradient(160deg, rgba(20,10,16,.96), rgba(8,6,10,.98));
-    border: 1px solid rgba(255,30,60,.35); border-radius: 18px; padding: 24px 22px;
-    box-shadow: 0 0 0 1px rgba(255,30,60,.08), 0 20px 60px rgba(0,0,0,.7), inset 0 0 40px rgba(255,30,60,.04);
+  .champs input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
+  .champs .fixe { display: flex; align-items: center; justify-content: center; color: var(--rouge); }
+  .accord { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; color: var(--texte2); margin-bottom: 18px; }
+  .accord input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--rouge); }
+  .bouton {
+    width: 100%; height: 58px; border-radius: 14px; cursor: pointer;
+    background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff;
+    font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    box-shadow: 0 0 22px rgba(255,59,79,.35); transition: transform .15s, background .2s;
   }
-  .carte::before, .carte::after {
-    content: ''; position: absolute; width: 22px; height: 22px; border-color: var(--rouge); border-style: solid; opacity: .9;
+  .bouton:hover { background: rgba(255,59,79,.35); }
+  .bouton:active { transform: scale(.98); }
+  .bouton:disabled { opacity: .5; cursor: not-allowed; }
+  .conditions { margin: 0 0 16px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
+  #resultat:empty { display: none; }
+  .code-zone { text-align: center; }
+  .code {
+    margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800;
+    letter-spacing: 8px; color: #fff; padding: 18px 10px; border-radius: 14px;
+    background: rgba(0,0,0,.5); border: 1px dashed var(--rouge);
   }
-  .carte::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-radius: 18px 0 0 0; }
-  .carte::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-radius: 0 0 18px 0; }
-
-  label { display: block; font-size: .85rem; color: var(--doux); margin-bottom: 8px; letter-spacing: .3px; }
-  input[type=tel] {
-    width: 100%; padding: 15px 16px; border-radius: 12px; border: 1px solid #3a1420; background: #09070b;
-    color: #fff; font-size: 1.15rem; letter-spacing: 1px; outline: none; transition: .2s;
+  .copier {
+    width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff;
+    background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase; box-shadow: 0 0 24px rgba(255,59,79,.5);
   }
-  input[type=tel]:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px rgba(255,30,60,.2), 0 0 18px rgba(255,30,60,.35); }
-
-  .conditions {
-    margin: 16px 0 12px; padding: 14px 14px 14px 30px; font-size: .8rem; line-height: 1.6; color: #b9b3c2;
-    background: rgba(255,30,60,.05); border: 1px solid rgba(255,30,60,.18); border-radius: 12px;
+  .copier:active { transform: scale(.98); }
+  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 16px 0 6px; text-align: left; }
+  .etat { margin-top: 14px; font-weight: 700; color: #fff; }
+  .ok { color: #3ddc84; }
+  .erreur { color: #ff8a96; font-weight: 700; text-align: center; }
+  .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .liens a {
+    display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700;
+    padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre);
   }
-  .conditions li { margin-bottom: 4px; }
-  .accord { display: flex; gap: 10px; align-items: flex-start; font-size: .85rem; color: #d8d3e0; margin: 6px 0 18px; cursor: pointer; }
-  .accord input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--rouge); }
-
-  button.primaire {
-    width: 100%; padding: 16px; border: 0; border-radius: 12px; cursor: pointer;
-    background: linear-gradient(90deg, var(--rouge2), var(--rouge)); color: #fff;
-    font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    box-shadow: 0 0 18px rgba(255,30,60,.45); transition: transform .15s, box-shadow .2s;
-  }
-  button.primaire:hover { box-shadow: 0 0 30px rgba(255,30,60,.7); }
-  button.primaire:active { transform: scale(.98); }
-  button.primaire:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
-
-  #resultat { margin-top: 22px; }
-  .etiquette { text-align: center; font-size: .75rem; letter-spacing: 3px; color: var(--doux); text-transform: uppercase; }
-  .code-box {
-    margin: 14px 0; padding: 18px 10px; text-align: center; border-radius: 14px;
-    background: #07050a; border: 1px dashed var(--rouge); box-shadow: inset 0 0 26px rgba(255,30,60,.15), 0 0 18px rgba(255,30,60,.25);
-  }
-  .code { font-family: 'Consolas', 'Courier New', monospace; font-size: 2.3rem; font-weight: 800; letter-spacing: 8px; color: #fff; text-shadow: 0 0 12px var(--rouge); }
-  button.copier {
-    width: 100%; padding: 18px; border: 2px solid var(--rouge); border-radius: 14px; cursor: pointer;
-    background: rgba(255,30,60,.12); color: #fff; font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;
-    text-transform: uppercase; box-shadow: 0 0 22px rgba(255,30,60,.35);
-  }
-  button.copier:active { background: var(--rouge); }
-  .etapes { font-size: .85rem; line-height: 1.7; color: #c8c2d2; margin-top: 16px; }
-  .etapes b { color: #fff; }
-  .etat { margin-top: 16px; text-align: center; font-weight: 600; }
-  .ok { color: #7dffb0; text-shadow: 0 0 10px rgba(125,255,176,.5); }
-  .erreur { color: #ff6b7f; }
-  .pied { margin-top: 22px; text-align: center; font-size: .72rem; color: #5d5768; letter-spacing: .5px; }
-
-  @media (prefers-reduced-motion: reduce) { *, body::after { animation: none !important; } }
+  .liens a:hover { border-color: var(--rouge); }
+  .pied { text-align: center; font-size: .8rem; color: #9a9aa6; }
 </style>
 </head>
 <body>
 <main>
-  <div class="logo">
-    <h1>MELIODAS BOT</h1>
-    <div class="devise">LA PUISSANCE SE FORGE</div>
+  <div class="verre entete">
+    <div class="marque">MELIODAS BOT</div>
+    <div class="pastille"><span class="point"></span> En ligne</div>
   </div>
 
-  <div class="carte">
-    <label for="numero">Ton numéro WhatsApp (indicatif, sans +)</label>
-    <input id="numero" type="tel" inputmode="numeric" placeholder="243812345678" autocomplete="tel">
+  <div class="verre">
+    <h2>Connecter ton compte</h2>
+    <p class="sous">Saisis ton numéro WhatsApp, puis le code apparaît ici.</p>
+
+    <label for="numero">Numéro WhatsApp</label>
+    <div class="champs">
+      <div class="fixe">+243</div>
+      <input id="numero" type="tel" inputmode="numeric" placeholder="9999585890" autocomplete="tel">
+    </div>
 
     <ul class="conditions">
       <li>Le bot répondra aux commandes depuis ton compte WhatsApp.</li>
       <li>Ton compte sera abonné à la chaîne MELIODAS.</li>
-      <li>Les réglages de tes groupes sont enregistrés sur le serveur.</li>
-      <li>WhatsApp peut restreindre les comptes qui utilisent des bots non officiels : tu en assumes le risque.</li>
-      <li>Tu peux te déconnecter à tout moment : WhatsApp, Appareils connectés, ou la commande .logout.</li>
+      <li>WhatsApp peut restreindre les bots non officiels : tu en assumes le risque.</li>
+      <li>Tu peux te déconnecter à tout moment (Appareils connectés, ou .logout).</li>
     </ul>
 
-    <label class="accord"><input id="accord" type="checkbox"> <span>J'ai compris et j'accepte ces conditions.</span></label>
+    <label class="accord"><input id="accord" type="checkbox"><span>J'ai compris et j'accepte ces conditions.</span></label>
 
-    <button id="envoyer" class="primaire">Générer mon code</button>
+    <button id="envoyer" class="bouton">Générer mon code</button>
     <div id="resultat"></div>
+  </div>
+
+  <div class="liens">
+    <a href="https://whatsapp.com/channel/0029Vb7EemV9cDDh7Uhr2i2b" target="_blank" rel="noopener">📢 Chaîne WhatsApp</a>
+    <a href="https://t.me/MeliodasCodeBot" target="_blank" rel="noopener">✈️ Bot Telegram</a>
   </div>
 
   <div class="pied">Service indépendant, non affilié à WhatsApp.</div>
@@ -135,21 +121,23 @@
   function afficherCode(brut) {
     const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
     resultat.innerHTML = `
-      <div class="etiquette">Ton code de connexion</div>
-      <div class="code-box"><div class="code">${joli}</div></div>
-      <button class="copier" id="copier">📋 Copier le code</button>
-      <div class="etapes">
-        Dans WhatsApp : <b>Appareils connectés</b> → <b>Connecter un appareil</b> → <b>Se connecter avec un numéro de téléphone</b>, puis colle ce code.
+      <div class="code-zone">
+        <div class="sous">Ton code de connexion</div>
+        <div class="code">${joli}</div>
+        <button class="copier" id="copier">Copier le code</button>
       </div>
-      <p class="etat" id="etat"><span style="color:#8f8a99">En attente de ta connexion…</span></p>`
+      <div class="etapes">
+        Sur ton téléphone : <b>Appareils connectés</b>, <b>Connecter un appareil</b>, puis <b>Se connecter avec un numéro de téléphone</b>. Colle ce code.
+      </div>
+      <p class="etat" id="etat">En attente de ta connexion…</p>`
     document.getElementById('copier').addEventListener('click', async (e) => {
       try {
         await navigator.clipboard.writeText(brut)
-        e.target.textContent = '✅ Code copié'
+        e.target.textContent = 'Code copié ✓'
       } catch {
         e.target.textContent = 'Copie : ' + brut
       }
-      setTimeout(() => { e.target.textContent = '📋 Copier le code' }, 2500)
+      setTimeout(() => { e.target.textContent = 'Copier le code' }, 2500)
     })
   }
 
@@ -158,12 +146,12 @@
     resultat.innerHTML = ''
     const n = numero.value.replace(/\D/g, '')
     bouton.disabled = true
-    bouton.textContent = 'Génération en cours…'
+    bouton.textContent = 'Génération…'
     try {
       const rep = await fetch('/api/code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ numero: n, consentement: accord.checked }),
+        body: JSON.stringify({ numero: '243' + n.replace(/^243/, ''), consentement: accord.checked }),
       })
       const donnees = await rep.json()
       if (!rep.ok) throw new Error(donnees.erreur || 'Erreur')
@@ -172,16 +160,16 @@
       minuteur = setInterval(async () => {
         essais++
         try {
-          const s = await (await fetch('/api/statut/' + n)).json()
+          const s = await (await fetch('/api/statut/243' + n.replace(/^243/, ''))).json()
           if (s.connecte) {
             clearInterval(minuteur)
-            document.getElementById('etat').innerHTML = '<span class="ok">✅ Bot connecté ! Envoie .menu dans WhatsApp.</span>'
+            document.getElementById('etat').innerHTML = '<span class="ok">✅ Compte connecté. Envoie .menu sur WhatsApp.</span>'
           }
         } catch {}
         if (essais > 100) clearInterval(minuteur)
       }, 3000)
     } catch (e) {
-      resultat.innerHTML = `<p class="erreur etat">${e.message}</p>`
+      resultat.innerHTML = `<p class="erreur">${e.message}</p>`
     }
     bouton.disabled = false
     bouton.textContent = 'Générer mon code'
