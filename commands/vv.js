@@ -1,51 +1,37 @@
+import { downloadMediaMessage, normalizeMessageContent, getContentType } from '@whiskeysockets/baileys';
+
 export default {
   nom: 'vv',
   run: async ({ sock, jid, msg }) => {
-    // 1. On regarde si c'est une réponse à un message
+    // 1. On récupère le message cité (ou le message actuel)
     const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-    
-    // On prend le message cité s'il existe, sinon le message actuel
-    let messageContent = quoted ? quoted : msg.message;
+    let targetMessage = quoted ? quoted : msg.message;
 
-    if (!messageContent) return;
+    // 2. On déballe le conteneur "Vue unique" (viewOnceMessageV2, etc.)
+    const normalizedMessage = normalizeMessageContent(targetMessage);
+    if (!normalizedMessage) return;
 
-    // 2. On "ouvre" le dossier Vue Unique (View Once)
-    if (messageContent.viewOnceMessageV2) {
-      messageContent = messageContent.viewOnceMessageV2.message;
-    } else if (messageContent.viewOnceMessage) {
-      messageContent = messageContent.viewOnceMessage.message;
-    } else if (messageContent.viewOnceMessageV2Extension) {
-      messageContent = messageContent.viewOnceMessageV2Extension.message;
-    }
+    // 3. On détecte le type de média
+    const messageType = getContentType(normalizedMessage);
+    const mediaTypes = ['imageMessage', 'videoMessage', 'audioMessage'];
 
-    // 3. On cherche l'image ou la vidéo à l'intérieur
-    let type, mediaMsg;
-    if (messageContent.imageMessage) {
-      type = 'image';
-      mediaMsg = messageContent.imageMessage;
-    } else if (messageContent.videoMessage) {
-      type = 'video';
-      mediaMsg = messageContent.videoMessage;
-    } else if (messageContent.audioMessage) { // Optionnel, pour les vocaux
-      type = 'audio';
-      mediaMsg = messageContent.audioMessage;
-    }
-
-    // Si on ne trouve rien
-    if (!mediaMsg) {
+    if (!mediaTypes.includes(messageType)) {
       return await sock.sendMessage(jid, { 
-        text: "⚠️ Répondez à une photo ou vidéo à vue unique avec .vv" 
+        text: "⚠️ Répondez à une photo, vidéo ou audio à vue unique avec .vv" 
       }, { quoted: msg });
     }
 
     try {
-      // 4. On prépare le message pour le téléchargement (Baileys a besoin de cette structure)
-      const fakeMsg = { message: messageContent };
-      
-      // 5. Téléchargement du média en mémoire
-      const buffer = await sock.downloadMediaMessage(fakeMsg);
+      // 4. Téléchargement du média (la fonction est importée, pas sur sock)
+      const buffer = await downloadMediaMessage(
+        { message: normalizedMessage }, // On passe un objet message valide
+        'buffer',
+        {},
+        { logger: console, reuploadRequest: sock.updateMediaMessage }
+      );
 
-      // 6. On renvoie le média en mode NORMAL (sans le View Once)
+      // 5. On renvoie le média en mode NORMAL (sans le "Vue unique")
+      const type = messageType.replace('Message', ''); // 'imageMessage' -> 'image'
       await sock.sendMessage(jid, { 
         [type]: buffer 
       }, { quoted: msg });
@@ -53,7 +39,7 @@ export default {
     } catch (e) {
       console.error("Erreur .vv:", e);
       await sock.sendMessage(jid, { 
-        text: "❌ Impossible de traiter le média." 
+        text: "❌ Impossible de traiter le média. Vérifiez qu'il est bien à vue unique." 
       }, { quoted: msg });
     }
   },
