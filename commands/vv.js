@@ -1,26 +1,33 @@
 export default {
   nom: 'vv',
   run: async ({ sock, jid, msg }) => {
-   // On récupère n'importe quel type de média attaché
-   const media = msg.message?.imageMessage || msg.message?.videoMessage || msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage;
+    // 1. On cherche si le message est une réponse (quoted) ou un envoi direct
+    const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    let type, mediaMsg;
 
-   if (!media) {
-   await sock.sendMessage(jid, { text: "❌ Erreur: Aucune image ou vidéo trouvée." });
-   return;
- }
+    if (quoted) {
+      if (quoted.imageMessage) { type = 'image'; mediaMsg = quoted.imageMessage; }
+      else if (quoted.videoMessage) { type = 'video'; mediaMsg = quoted.videoMessage; }
+    } else {
+      if (msg.message?.imageMessage) { type = 'image'; mediaMsg = msg.message.imageMessage; }
+      else if (msg.message?.videoMessage) { type = 'video'; mediaMsg = msg.message.videoMessage; }
+    }
 
-   try {
-   // Téléchargement du média
-   const buffer = await sock.downloadMediaMessage(media);
-   
-   // Renvoi simple: convertit tout en photo ou vidéo normale
-   if (media.imageMessage || media.imageMessage?.viewOnce) {
-   await sock.sendMessage(jid, { image: buffer }, { quoted: msg });
-   } else {
-   await sock.sendMessage(jid, { video: buffer }, { quoted: msg });
-   }
-   } catch (e) {
-   await sock.sendMessage(jid, { text: "❌ Impossible de traiter l'image." });
-   }
+    // Si on ne trouve aucun média
+    if (!mediaMsg) {
+      return await sock.sendMessage(jid, { text: "⚠️ Répondez à une image ou une vidéo avec .vv" }, { quoted: msg });
+    }
+
+    try {
+      // 2. Téléchargement du média (on simule la structure exacte attendue par Baileys)
+      const fakeMsg = { message: { [type + 'Message']: mediaMsg } };
+      const buffer = await sock.downloadMediaMessage(fakeMsg);
+
+      // 3. Renvoi du média correctement formaté
+      await sock.sendMessage(jid, { [type]: buffer }, { quoted: msg });
+    } catch (e) {
+      console.error("Erreur .vv:", e);
+      await sock.sendMessage(jid, { text: "❌ Impossible de traiter le média." }, { quoted: msg });
+    }
   },
 }

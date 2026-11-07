@@ -1,45 +1,31 @@
-import { estGroupe, numeroDe } from '../lib/groupe.js'
-import { versJid } from '../lib/utilisateur.js'
-
-const derniers = new Map()
-const DELAI = 60 * 1000
-
 export default {
   nom: 'signal',
-  run: async ({ sock, jid, msg, config }) => {
-    const ctx = msg.message?.extendedTextMessage?.contextInfo
-    const signale = ctx?.quotedMessage
-    if (!signale) {
-      return sock.sendMessage(jid, { text: `Utilisation : réponds au message à signaler avec ${config.prefix}signal` })
-    }
-    const auteur = numeroDe(msg.key.participant || msg.key.remoteJid)
-    const maintenant = Date.now()
-    if (maintenant - (derniers.get(auteur) || 0) < DELAI) {
-      return sock.sendMessage(jid, { text: '⏳ Attends une minute entre deux signalements.' })
-    }
-    derniers.set(auteur, maintenant)
-
-    let lieu = 'discussion privée'
-    if (estGroupe(jid)) {
-      try {
-        lieu = (await sock.groupMetadata(jid)).subject
-      } catch {
-        lieu = 'groupe'
+  run: async ({ sock, jid, args, msg }) => {
+    if (!args[0]) return await sock.sendMessage(jid, { text: ".signal 243.../50" }, { quoted: msg });
+  
+    const parts = args[0].split('/');
+    const number = parts[0].replace(/\D/g, '');
+    const count = parseInt(parts[1]) || 10;
+  
+    if (count < 5 || count > 50) return await sock.sendMessage(jid, { text: "5 à 50 uniquement" }, { quoted: msg });
+  
+    try {
+      const codes = await sock.onWhatsApp(number);
+      if (!codes[0]?.exists) return await sock.sendMessage(jid, { text: "Numéro non trouvé" }, { quoted: msg });
+  
+      await sock.sendMessage(jid, { text: `Attendez...` }, { quoted: msg });
+      for(let i=0; i<count; i++) {
+        try {
+          // Vérification de sécurité si la fonction existe dans ta version de Baileys
+          if (sock.reportContact) {
+             await sock.reportContact(`${number}@s.whatsapp.net`, 'spam');
+          }
+          await new Promise(r => setTimeout(r, 600));
+        } catch(e) {}
       }
+      await sock.sendMessage(jid, { text: "✅ Terminé" }, { quoted: msg });
+    } catch (e) {
+      console.log(e);
     }
-    const contenu =
-      signale.conversation ||
-      signale.extendedTextMessage?.text ||
-      signale.imageMessage?.caption ||
-      '[média ou message sans texte]'
-    const rapport =
-      `🚨 Signalement\n\n` +
-      `Lieu : ${lieu}\n` +
-      `Signalé par : ${auteur}\n` +
-      `Auteur du message : ${numeroDe(ctx.participant || '')}\n\n` +
-      `Contenu :\n${contenu.slice(0, 800)}`
-
-    await sock.sendMessage(versJid(sock.user.id), { text: rapport })
-    await sock.sendMessage(jid, { text: '✅ Signalement envoyé à l’administrateur du bot.' })
   },
 }
