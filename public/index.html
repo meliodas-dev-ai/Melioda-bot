@@ -6,37 +6,41 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>MELIODAS BOT · Connexion</title>
 <style>
-  :root { --rouge: #ff3b4f; --rouge-doux: rgba(255,59,79,.18); --verre: rgba(255,255,255,.05); --bord: rgba(255,255,255,.12); --texte: #ffffff; --texte2: #d6d6de; }
+  :root { --rouge: #ff3b4f; --rouge-doux: rgba(255,59,79,.18); --verre: rgba(255,255,255,.05); --bord: rgba(255,255,255,.12); --texte: #fff; --texte2: #d6d6de; --vert: #3ddc84; --gris: #7a7a86; }
   * { box-sizing: border-box; }
   body { margin: 0; min-height: 100vh; color: var(--texte); font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 16px; background: radial-gradient(circle at 50% -10%, rgba(255,59,79,.35), transparent 55%), #08080b; display: flex; justify-content: center; padding: 28px 16px 48px; }
   main { width: 100%; max-width: 440px; display: grid; gap: 16px; }
   .verre { background: var(--verre); border: 1px solid var(--bord); border-radius: 18px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px; }
-  .entete { display: flex; align-items: center; justify-content: space-between; }
-  .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); }
-  .pastille { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); }
-  .point { width: 9px; height: 9px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 10px #3ddc84; }
-  .stat { text-align: center; font-weight: 700; color: var(--texte2); }
-  .stat span { color: var(--rouge); font-size: 1.3rem; margin: 0 4px; }
-  h2 { margin: 0 0 6px; font-size: 1.2rem; font-weight: 800; }
-  .sous { margin: 0 0 16px; color: var(--texte2); font-size: .95rem; }
+  .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); text-align: center; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .stats .n { display: block; font-size: 1.6rem; font-weight: 800; color: var(--rouge); }
+  .stats .l { font-size: .85rem; color: var(--texte2); font-weight: 700; }
+  h2 { margin: 0 0 6px; font-size: 1.15rem; font-weight: 800; }
+  .sous { margin: 0 0 14px; color: var(--texte2); font-size: .92rem; }
+  .serveur { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--bord); margin-bottom: 8px; background: rgba(0,0,0,.35); }
+  .serveur.reco { border-color: var(--rouge); box-shadow: 0 0 16px rgba(255,59,79,.25); }
+  .nom { font-weight: 800; }
+  .badge { display: inline-block; font-size: .72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--rouge); margin-left: 6px; }
+  .etat { font-size: .85rem; font-weight: 700; text-align: right; }
+  .etat.on { color: var(--vert); }
+  .etat.off { color: var(--gris); }
   label { display: block; margin: 0 0 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
-  input { width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord); background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none; margin-bottom: 8px; }
-  input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
-  .aide { font-size: .85rem; color: #9a9aa6; margin: 0 0 14px; }
+  select, input { width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord); background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none; margin-bottom: 14px; }
+  select option { background: #111; color: #fff; }
+  select:focus, input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
+  .aide { font-size: .85rem; color: #9a9aa6; margin: -8px 0 12px; }
   .apercu { font-size: .9rem; color: var(--texte2); margin: 0 0 14px; min-height: 1em; }
   .apercu b { color: var(--rouge); }
-  .conditions { margin: 0 0 14px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
+  .conditions { margin: 0 0 12px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
   .bouton { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 22px rgba(255,59,79,.35); }
-  .bouton:active { transform: scale(.98); }
   .bouton:disabled { opacity: .5; cursor: not-allowed; }
   #resultat:empty { display: none; }
   .code-zone { text-align: center; margin-top: 18px; }
   .code { margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800; letter-spacing: 8px; padding: 18px 10px; border-radius: 14px; background: rgba(0,0,0,.5); border: 1px dashed var(--rouge); }
-  .copier { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff; background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 24px rgba(255,59,79,.5); }
-  .copier:active { transform: scale(.98); }
-  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 16px 0 6px; }
-  .etat { margin-top: 14px; font-weight: 700; }
-  .ok { color: #3ddc84; }
+  .copier { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff; background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 14px 0 6px; }
+  .suivi { margin-top: 12px; font-weight: 700; }
+  .ok { color: var(--vert); }
   .erreur { color: #ff8a96; font-weight: 700; text-align: center; }
   .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .liens a { display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700; padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre); }
@@ -45,20 +49,27 @@
 </head>
 <body>
 <main>
-  <div class="verre entete">
-    <div class="marque">MELIODAS BOT</div>
-    <div class="pastille"><span class="point"></span> En ligne</div>
+  <div class="verre"><div class="marque">MELIODAS BOT</div></div>
+
+  <div class="verre stats">
+    <div><span class="n" id="nbServeurs">…</span><span class="l">serveurs reliés</span></div>
+    <div><span class="n" id="nbComptes">…</span><span class="l">comptes connectés</span></div>
   </div>
 
-  <div class="verre stat">👥 <span id="nb">…</span> comptes connectés</div>
+  <div class="verre">
+    <h2>Serveurs</h2>
+    <p class="sous">Le serveur recommandé est celui qui a le moins de comptes connectés.</p>
+    <div id="liste"></div>
+  </div>
 
   <div class="verre">
     <h2>Connecter ton compte</h2>
-    <p class="sous">Entre ton numéro WhatsApp complet, avec l'indicatif de ton pays.</p>
+    <label for="serveur">Serveur</label>
+    <select id="serveur"></select>
 
     <label for="numero">Numéro WhatsApp</label>
     <input id="numero" type="tel" inputmode="tel" placeholder="+509 3700 1234" autocomplete="tel">
-    <p class="aide">Exemples : +50937001234, +243900457430, +33612345678</p>
+    <p class="aide">Entre ton numéro complet, avec l'indicatif de ton pays.</p>
     <p class="apercu" id="apercu"></p>
 
     <ul class="conditions">
@@ -81,11 +92,74 @@
 </main>
 
 <script>
+  // Serveurs WhatsApp. Remplace l'adresse du serveur 2 par celle de Render une fois créé.
+  const SERVEURS = [
+    { nom: 'Serveur 1', url: 'https://melioda-bot-nmnv.onrender.com' },
+    { nom: 'Serveur 2', url: 'https://ADRESSE-SERVEUR-2.onrender.com' },
+  ]
+
+  const liste = document.getElementById('liste')
+  const choix = document.getElementById('serveur')
   const numero = document.getElementById('numero')
   const apercu = document.getElementById('apercu')
   const bouton = document.getElementById('envoyer')
   const resultat = document.getElementById('resultat')
+  let infos = []
   let minuteur = null
+
+  async function verifier(s) {
+    try {
+      const ctrl = new AbortController()
+      setTimeout(() => ctrl.abort(), 6000)
+      const ok = await fetch(s.url + '/healthz', { signal: ctrl.signal })
+      if (!ok.ok) return { ...s, enLigne: false, connectes: 0 }
+      const st = await (await fetch(s.url + '/api/stats')).json()
+      return { ...s, enLigne: true, connectes: st.connectes }
+    } catch {
+      return { ...s, enLigne: false, connectes: 0 }
+    }
+  }
+
+  function recommande() {
+    const dispo = infos.filter((s) => s.enLigne).sort((a, b) => a.connectes - b.connectes)
+    return dispo[0] || null
+  }
+
+  function afficher() {
+    const reco = recommande()
+    const enLigne = infos.filter((s) => s.enLigne)
+    const total = enLigne.reduce((somme, s) => somme + s.connectes, 0)
+
+    document.getElementById('nbServeurs').textContent = enLigne.length + ' / ' + infos.length
+    document.getElementById('nbComptes').textContent = total
+
+    liste.innerHTML = infos.map((s) => {
+      const estReco = reco && s.url === reco.url
+      return `
+        <div class="serveur ${estReco ? 'reco' : ''}">
+          <div>
+            <span class="nom">${s.nom}</span>${estReco ? '<span class="badge">Recommandé</span>' : ''}
+          </div>
+          <span class="etat ${s.enLigne ? 'on' : 'off'}">${s.enLigne ? '● ' + s.connectes + ' comptes' : '○ Hors ligne'}</span>
+        </div>`
+    }).join('')
+
+    const selection = choix.value
+    choix.innerHTML = '<option value="auto">Automatique (le moins chargé)</option>' +
+      infos.map((s, i) => `<option value="${i}" ${s.enLigne ? '' : 'disabled'}>${s.nom}${s.enLigne ? ' · ' + s.connectes + ' comptes' : ' · hors ligne'}</option>`).join('')
+    if (selection) choix.value = selection
+  }
+
+  async function rafraichir() {
+    infos = await Promise.all(SERVEURS.map(verifier))
+    afficher()
+  }
+
+  function serveurChoisi() {
+    if (choix.value === 'auto') return recommande()
+    const s = infos[Number(choix.value)]
+    return s && s.enLigne ? s : null
+  }
 
   function chiffres() {
     let d = numero.value.replace(/\D/g, '')
@@ -93,11 +167,10 @@
     return d
   }
 
-  function majApercu() {
+  numero.addEventListener('input', () => {
     const d = chiffres()
     apercu.innerHTML = d.length > 3 ? `Numéro envoyé : <b>+${d}</b>` : ''
-  }
-  numero.addEventListener('input', majApercu)
+  })
 
   function afficherCode(brut) {
     const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
@@ -110,7 +183,7 @@
       <div class="etapes">
         Sur ton téléphone : <b>Appareils connectés</b>, <b>Connecter un appareil</b>, puis <b>Se connecter avec un numéro de téléphone</b>. Colle ce code.
       </div>
-      <p class="etat" id="etat">En attente de ta connexion…</p>`
+      <p class="suivi" id="suivi">En attente de ta connexion…</p>`
     document.getElementById('copier').addEventListener('click', async (e) => {
       try {
         await navigator.clipboard.writeText(brut)
@@ -127,13 +200,18 @@
     resultat.innerHTML = ''
     const n = chiffres()
     if (n.length < 8 || n.length > 15) {
-      resultat.innerHTML = '<p class="erreur">Le numéro doit contenir entre 8 et 15 chiffres, avec l\'indicatif du pays.</p>'
+      resultat.innerHTML = '<p class="erreur">Le numéro doit contenir entre 8 et 15 chiffres, avec l\'indicatif.</p>'
+      return
+    }
+    const s = serveurChoisi()
+    if (!s) {
+      resultat.innerHTML = '<p class="erreur">Aucun serveur disponible pour le moment. Réessaie dans quelques minutes.</p>'
       return
     }
     bouton.disabled = true
-    bouton.textContent = 'Génération…'
+    bouton.textContent = 'Génération sur ' + s.nom + '…'
     try {
-      const rep = await fetch('/api/code', {
+      const rep = await fetch(s.url + '/api/code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ numero: n, consentement: true }),
@@ -145,10 +223,10 @@
       minuteur = setInterval(async () => {
         essais++
         try {
-          const s = await (await fetch('/api/statut/' + n)).json()
-          if (s.connecte) {
+          const r = await (await fetch(s.url + '/api/statut/' + n)).json()
+          if (r.connecte) {
             clearInterval(minuteur)
-            document.getElementById('etat').innerHTML = '<span class="ok">✅ Compte connecté. Envoie .menu sur WhatsApp.</span>'
+            document.getElementById('suivi').innerHTML = '<span class="ok">✅ Compte connecté sur ' + s.nom + '. Envoie .menu sur WhatsApp.</span>'
           }
         } catch {}
         if (essais > 100) clearInterval(minuteur)
@@ -158,16 +236,11 @@
     }
     bouton.disabled = false
     bouton.textContent = 'Générer mon code'
+    rafraichir()
   })
 
-  async function majStats() {
-    try {
-      const r = await (await fetch('/api/stats')).json()
-      document.getElementById('nb').textContent = r.connectes
-    } catch {}
-  }
-  majStats()
-  setInterval(majStats, 30000)
+  rafraichir()
+  setInterval(rafraichir, 30000)
 </script>
 </body>
 </html>

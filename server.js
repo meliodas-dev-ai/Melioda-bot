@@ -13,6 +13,13 @@ const app = express()
 app.set('trust proxy', 1)
 app.use(express.json({ limit: '2kb' }))
 app.use(express.static('public'))
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  if (req.method === 'OPTIONS') return res.sendStatus(204)
+  next()
+})
 
 const compteurs = new Map()
 function autorise(cle, max, fenetre) {
@@ -67,5 +74,5 @@ app.get('/api/stats', (req, res) => {
 await chargerCommandes()
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`🌐 Site prêt : http://localhost:${port}`))
-restaurerSessions()
+if (process.env.SERVEUR_TELEGRAM !== 'oui') restaurerSessions()
 demarrerTelegram()
