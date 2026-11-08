@@ -3,12 +3,15 @@ import { downloadMediaMessage, normalizeMessageContent, getContentType } from '@
 export default {
   nom: 'vv',
   categorie: 'Media',
-  desc: 'Débloquer une photo/vidéo à vue unique',
+  desc: 'Débloquer une photo/vidéo à vue unique (Max 15Mo)',
   run: async ({ sock, jid, msg }) => {
+    // 1. On récupère le message cité ou actuel
     const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
     const targetMessage = quoted ? quoted : msg.message;
+
     if (!targetMessage) return;
 
+    // 2. On déballe le conteneur "Vue unique"
     const normalizedMessage = normalizeMessageContent(targetMessage);
     if (!normalizedMessage) return;
 
@@ -20,12 +23,13 @@ export default {
     }
 
     try {
-      // 🛑 SÉCURITÉ ANTI-CRASH RENDER (Max 15 Mo)
+      // 🛑 SÉCURITÉ ANTI-CRASH RENDER : Limite à 15 Mo
       const fileSize = normalizedMessage[messageType]?.fileLength;
       if (fileSize && Number(fileSize) > 15 * 1024 * 1024) {
         return await sock.sendMessage(jid, { text: "❌ Fichier trop lourd pour le serveur Render (Max 15 Mo)." }, { quoted: msg });
       }
 
+      // 3. On reconstruit un objet WAMessage complet (INDISPENSABLE pour trouver la mediaKey)
       const fakeWAMessage = {
         key: {
           remoteJid: msg.key.remoteJid,
@@ -35,6 +39,7 @@ export default {
         message: normalizedMessage 
       };
 
+      // 4. Téléchargement du média
       const buffer = await downloadMediaMessage(
         fakeWAMessage,
         'buffer',
@@ -42,7 +47,8 @@ export default {
         { logger: console, reuploadRequest: sock.updateMediaMessage }
       );
 
-      const type = messageType.replace('Message', '');
+      // 5. Renvoi normal
+      const type = messageType.replace('Message', ''); // ex: imageMessage -> image
       await sock.sendMessage(jid, { [type]: buffer }, { quoted: msg });
 
     } catch (e) {
