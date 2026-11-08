@@ -1,3 +1,4 @@
+import http from "http";
 const filtre = (f) => (...a) => { const t = a.map(String).join(' '); if (/Closing session|Failed to decrypt|Session error|Bad MAC|MessageCounterError|SessionEntry/.test(t)) return; f(...a) }
 console.info = filtre(console.info.bind(console))
 console.warn = filtre(console.warn.bind(console))
@@ -97,3 +98,12 @@ async function demarrer() {
 }
 
 demarrer()
+
+// --- Render Keep-Alive (Ajouté automatiquement) ---
+const renderPort = process.env.PORT || 10000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot Meliodas en ligne !');
+}).listen(renderPort, () => {
+  console.log(`✅ Serveur Render actif sur le port ${renderPort}`);
+});
