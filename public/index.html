@@ -49,46 +49,46 @@
 </head>
 <body>
 <main>
-  <div class="verre"><div class="marque">MELIODAS BOT</div></div>
+  <div class="verre"><div class="marque">⚡ 𝙈𝙀𝙇𝙄𝙊𝘿𝘼𝙎 𝘽𝙊𝙏 🩸</div></div>
 
   <div class="verre stats">
-    <div><span class="n" id="nbServeurs">…</span><span class="l">serveurs reliés</span></div>
-    <div><span class="n" id="nbComptes">…</span><span class="l">comptes connectés</span></div>
+    <div><span class="n" id="nbServeurs">…</span><span class="l">🖥️ SERVEURS RELIÉS</span></div>
+    <div><span class="n" id="nbComptes">…</span><span class="l">👥 COMPTES CONNECTÉS</span></div>
   </div>
 
   <div class="verre">
     <h2>Serveurs</h2>
-    <p class="sous">Le serveur recommandé est celui qui a le moins de comptes connectés.</p>
+    <p class="sous">Le serveur recommandé est celui qui a le moins de 👥 COMPTES CONNECTÉS.</p>
     <div id="liste"></div>
   </div>
 
   <div class="verre">
-    <h2>Connecter ton compte</h2>
+    <h2>🔐 CONNECTER TON COMPTE</h2>
     <label for="serveur">Serveur</label>
     <select id="serveur"></select>
 
-    <label for="numero">Numéro WhatsApp</label>
+    <label for="numero">📱 NUMÉRO WHATSAPP</label>
     <input id="numero" type="tel" inputmode="tel" placeholder="+509 3700 1234" autocomplete="tel">
     <p class="aide">Entre ton numéro complet, avec l'indicatif de ton pays.</p>
     <p class="apercu" id="apercu"></p>
 
     <ul class="conditions">
-      <li>Le bot répondra aux commandes depuis ton compte WhatsApp.</li>
-      <li>Ton compte sera abonné à la chaîne MELIODAS.</li>
-      <li>WhatsApp peut restreindre les bots non officiels : tu en assumes le risque.</li>
-      <li>Tu peux te déconnecter à tout moment (Appareils connectés, ou .logout).</li>
+      <li>🤖 Le bot répondra aux commandes depuis ton compte WhatsApp.</li>
+      <li>📢 Ton compte sera abonné à la chaîne MELIODAS.</li>
+      <li>⚠️ WhatsApp peut restreindre les bots non officiels.</li>
+      <li>🔓 Tu peux te déconnecter à tout moment avec .logout.</li>
     </ul>
-    <p class="sous">En cliquant sur le bouton, tu acceptes ces conditions.</p>
+    <p class="sous">📜 En cliquant sur le bouton, tu acceptes ces conditions.</p>
 
-    <button id="envoyer" class="bouton">Générer mon code</button>
+    <button id="envoyer" class="bouton">🔑 GÉNÉRER MON CODE</button>
     <div id="resultat"></div>
   </div>
 
   <div class="liens">
-    <a href="https://whatsapp.com/channel/0029Vb7EemV9cDDh7Uhr2i2b" target="_blank" rel="noopener">📢 Chaîne WhatsApp</a>
-    <a href="https://t.me/MeliodasCodeBot" target="_blank" rel="noopener">✈️ Bot Telegram</a>
+    <a href="https://whatsapp.com/channel/0029Vb7EemV9cDDh7Uhr2i2b" target="_blank" rel="noopener">📢 📢 CHAÎNE WHATSAPP</a>
+    <a href="https://t.me/MeliodasCodeBot" target="_blank" rel="noopener">✈️ ✈️ BOT TELEGRAM</a>
   </div>
-  <div class="pied">Service indépendant, non affilié à WhatsApp.</div>
+  <div class="pied">🛡️ MELIODAS BOT • Service indépendant.</div>
 </main>
 
 <script>
@@ -179,14 +179,14 @@
     const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
     resultat.innerHTML = `
       <div class="code-zone">
-        <div class="sous">Ton code de connexion</div>
+        <div class="sous">🔐 TON CODE DE CONNEXION</div>
         <div class="code">${joli}</div>
         <button class="copier" id="copier">Copier le code</button>
       </div>
       <div class="etapes">
-        Sur ton téléphone : <b>Appareils connectés</b>, <b>Connecter un appareil</b>, puis <b>Se connecter avec un numéro de téléphone</b>. Colle ce code.
+        📲 Sur ton téléphone : <b>Appareils connectés</b>, <b>Connecter un appareil</b>, puis <b>Se connecter avec un numéro de téléphone</b>. Colle ce code.
       </div>
-      <p class="suivi" id="suivi">En attente de ta connexion…</p>`
+      <p class="suivi" id="suivi">⏳ En attente de ta connexion…</p>`
     document.getElementById('copier').addEventListener('click', async (e) => {
       try {
         await navigator.clipboard.writeText(brut)
@@ -238,7 +238,7 @@
       resultat.innerHTML = `<p class="erreur">${e.message}</p>`
     }
     bouton.disabled = false
-    bouton.textContent = 'Générer mon code'
+    bouton.textContent = '🔑 GÉNÉRER MON CODE'
     rafraichir()
   })
 

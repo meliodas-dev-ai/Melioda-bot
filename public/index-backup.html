@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>MELIODAS BOT · Connexion</title>
+<style>
+  :root { --rouge: #ff3b4f; --rouge-doux: rgba(255,59,79,.18); --verre: rgba(255,255,255,.05); --bord: rgba(255,255,255,.12); --texte: #fff; --texte2: #d6d6de; --vert: #3ddc84; --gris: #7a7a86; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: var(--texte); font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 16px; background: radial-gradient(circle at 50% -10%, rgba(255,59,79,.35), transparent 55%), #08080b; display: flex; justify-content: center; padding: 28px 16px 48px; }
+  main { width: 100%; max-width: 440px; display: grid; gap: 16px; }
+  .verre { background: var(--verre); border: 1px solid var(--bord); border-radius: 18px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 20px; }
+  .marque { font-size: 1.25rem; font-weight: 800; letter-spacing: 2px; color: var(--rouge); text-align: center; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; }
+  .stats .n { display: block; font-size: 1.6rem; font-weight: 800; color: var(--rouge); }
+  .stats .l { font-size: .85rem; color: var(--texte2); font-weight: 700; }
+  h2 { margin: 0 0 6px; font-size: 1.15rem; font-weight: 800; }
+  .sous { margin: 0 0 14px; color: var(--texte2); font-size: .92rem; }
+  .serveur { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--bord); margin-bottom: 8px; background: rgba(0,0,0,.35); }
+  .serveur.reco { border-color: var(--rouge); box-shadow: 0 0 16px rgba(255,59,79,.25); }
+  .nom { font-weight: 800; }
+  .badge { display: inline-block; font-size: .72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--rouge); margin-left: 6px; }
+  .etat { font-size: .85rem; font-weight: 700; text-align: right; }
+  .etat.on { color: var(--vert); }
+  .etat.off { color: var(--gris); }
+  label { display: block; margin: 0 0 8px; font-size: .9rem; font-weight: 700; color: var(--texte2); }
+  select, input { width: 100%; height: 56px; border-radius: 12px; border: 1px solid var(--bord); background: rgba(0,0,0,.45); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 0 14px; outline: none; margin-bottom: 14px; }
+  select option { background: #111; color: #fff; }
+  select:focus, input:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px var(--rouge-doux); }
+  .aide { font-size: .85rem; color: #9a9aa6; margin: -8px 0 12px; }
+  .apercu { font-size: .9rem; color: var(--texte2); margin: 0 0 14px; min-height: 1em; }
+  .apercu b { color: var(--rouge); }
+  .conditions { margin: 0 0 12px; padding-left: 20px; font-size: .88rem; line-height: 1.6; color: var(--texte2); }
+  .bouton { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; background: rgba(255,59,79,.22); border: 1px solid var(--rouge); color: #fff; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 22px rgba(255,59,79,.35); }
+  .bouton:disabled { opacity: .5; cursor: not-allowed; }
+  #resultat:empty { display: none; }
+  .code-zone { text-align: center; margin-top: 18px; }
+  .code { margin: 12px 0; font-family: Consolas, 'Courier New', monospace; font-size: 2.4rem; font-weight: 800; letter-spacing: 8px; padding: 18px 10px; border-radius: 14px; background: rgba(0,0,0,.5); border: 1px dashed var(--rouge); }
+  .copier { width: 100%; height: 58px; border-radius: 14px; cursor: pointer; color: #fff; background: var(--rouge); border: none; font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .etapes { font-size: .92rem; line-height: 1.6; color: var(--texte2); margin: 14px 0 6px; }
+  .suivi { margin-top: 12px; font-weight: 700; }
+  .ok { color: var(--vert); }
+  .erreur { color: #ff8a96; font-weight: 700; text-align: center; }
+  .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .liens a { display: block; text-align: center; text-decoration: none; color: #fff; font-weight: 700; padding: 14px; border-radius: 14px; border: 1px solid var(--bord); background: var(--verre); }
+  .pied { text-align: center; font-size: .8rem; color: #9a9aa6; }
+</style>
+</head>
+<body>
+<main>
+  <div class="verre"><div class="marque">⚡ 𝙈𝙀𝙇𝙄𝙊𝘿𝘼𝙎 𝘽𝙊𝙏 🩸</div></div>
+
+  <div class="verre stats">
+    <div><span class="n" id="nbServeurs">…</span><span class="l">🖥️ SERVEURS RELIÉS</span></div>
+    <div><span class="n" id="nbComptes">…</span><span class="l">👥 COMPTES CONNECTÉS</span></div>
+  </div>
+
+  <div class="verre">
+    <h2>Serveurs</h2>
+    <p class="sous">Le serveur recommandé est celui qui a le moins de 👥 COMPTES CONNECTÉS.</p>
+    <div id="liste"></div>
+  </div>
+
+  <div class="verre">
+    <h2>🔐 CONNECTER TON COMPTE</h2>
+    <label for="serveur">Serveur</label>
+    <select id="serveur"></select>
+
+    <label for="numero">📱 NUMÉRO WHATSAPP</label>
+    <input id="numero" type="tel" inputmode="tel" placeholder="+509 3700 1234" autocomplete="tel">
+    <p class="aide">Entre ton numéro complet, avec l'indicatif de ton pays.</p>
+    <p class="apercu" id="apercu"></p>
+
+    <ul class="conditions">
+      <li>🤖 Le bot répondra aux commandes depuis ton compte WhatsApp.</li>
+      <li>📢 Ton compte sera abonné à la chaîne MELIODAS.</li>
+      <li>⚠️ WhatsApp peut restreindre les bots non officiels.</li>
+      <li>🔓 Tu peux te déconnecter à tout moment avec .logout.</li>
+    </ul>
+    <p class="sous">📜 En cliquant sur le bouton, tu acceptes ces conditions.</p>
+
+    <button id="envoyer" class="bouton">🔑 GÉNÉRER MON CODE</button>
+    <div id="resultat"></div>
+  </div>
+
+  <div class="liens">
+    <a href="https://whatsapp.com/channel/0029Vb7EemV9cDDh7Uhr2i2b" target="_blank" rel="noopener">📢 📢 CHAÎNE WHATSAPP</a>
+    <a href="https://t.me/MeliodasCodeBot" target="_blank" rel="noopener">✈️ ✈️ BOT TELEGRAM</a>
+  </div>
+  <div class="pied">🛡️ MELIODAS BOT • Service indépendant.</div>
+</main>
+
+<script>
+  // Serveurs WhatsApp. Remplace l'adresse du serveur 2 par celle de Render une fois créé.
+  const SERVEURS = [
+    { nom: 'Serveur 1', url: 'https://melioda-bot-nmnv.onrender.com' },
+    { nom: 'Serveur 2', url: 'https://melioda-bot.onrender.com' },
+    { nom: 'Serveur 3', url: 'https://melioda-bot-1.onrender.com' },
+    { nom: 'Serveur 4', url: 'https://melioda-bot-2.onrender.com' },
+    { nom: 'Serveur 5', url: 'https://melioda-bot-3.onrender.com' },
+  ]
+
+  const liste = document.getElementById('liste')
+  const choix = document.getElementById('serveur')
+  const numero = document.getElementById('numero')
+  const apercu = document.getElementById('apercu')
+  const bouton = document.getElementById('envoyer')
+  const resultat = document.getElementById('resultat')
+  let infos = []
+  let minuteur = null
+
+  async function verifier(s) {
+    try {
+      const ctrl = new AbortController()
+      setTimeout(() => ctrl.abort(), 6000)
+      const ok = await fetch(s.url + '/healthz', { signal: ctrl.signal })
+      if (!ok.ok) return { ...s, enLigne: false, connectes: 0 }
+      const st = await (await fetch(s.url + '/api/stats')).json()
+      return { ...s, enLigne: true, connectes: st.connectes }
+    } catch {
+      return { ...s, enLigne: false, connectes: 0 }
+    }
+  }
+
+  function recommande() {
+    const dispo = infos.filter((s) => s.enLigne).sort((a, b) => a.connectes - b.connectes)
+    return dispo[0] || null
+  }
+
+  function afficher() {
+    const reco = recommande()
+    const enLigne = infos.filter((s) => s.enLigne)
+    const total = enLigne.reduce((somme, s) => somme + s.connectes, 0)
+
+    document.getElementById('nbServeurs').textContent = enLigne.length + ' / ' + infos.length
+    document.getElementById('nbComptes').textContent = total
+
+    liste.innerHTML = infos.map((s) => {
+      const estReco = reco && s.url === reco.url
+      return `
+        <div class="serveur ${estReco ? 'reco' : ''}">
+          <div>
+            <span class="nom">${s.nom}</span>${estReco ? '<span class="badge">Recommandé</span>' : ''}
+          </div>
+          <span class="etat ${s.enLigne ? 'on' : 'off'}">${s.enLigne ? '● ' + s.connectes + ' comptes' : '○ Hors ligne'}</span>
+        </div>`
+    }).join('')
+
+    const selection = choix.value
+    choix.innerHTML = '<option value="auto">Automatique (le moins chargé)</option>' +
+      infos.map((s, i) => `<option value="${i}" ${s.enLigne ? '' : 'disabled'}>${s.nom}${s.enLigne ? ' · ' + s.connectes + ' comptes' : ' · hors ligne'}</option>`).join('')
+    if (selection) choix.value = selection
+  }
+
+  async function rafraichir() {
+    infos = await Promise.all(SERVEURS.map(verifier))
+    afficher()
+  }
+
+  function serveurChoisi() {
+    if (choix.value === 'auto') return recommande()
+    const s = infos[Number(choix.value)]
+    return s && s.enLigne ? s : null
+  }
+
+  function chiffres() {
+    let d = numero.value.replace(/\D/g, '')
+    if (d.startsWith('00')) d = d.slice(2)
+    return d
+  }
+
+  numero.addEventListener('input', () => {
+    const d = chiffres()
+    apercu.innerHTML = d.length > 3 ? `Numéro envoyé : <b>+${d}</b>` : ''
+  })
+
+  function afficherCode(brut) {
+    const joli = brut.length === 8 ? brut.slice(0, 4) + '-' + brut.slice(4) : brut
+    resultat.innerHTML = `
+      <div class="code-zone">
+        <div class="sous">🔐 TON CODE DE CONNEXION</div>
+        <div class="code">${joli}</div>
+        <button class="copier" id="copier">Copier le code</button>
+      </div>
+      <div class="etapes">
+        📲 Sur ton téléphone : <b>Appareils connectés</b>, <b>Connecter un appareil</b>, puis <b>Se connecter avec un numéro de téléphone</b>. Colle ce code.
+      </div>
+      <p class="suivi" id="suivi">⏳ En attente de ta connexion…</p>`
+    document.getElementById('copier').addEventListener('click', async (e) => {
+      try {
+        await navigator.clipboard.writeText(brut)
+        e.target.textContent = 'Code copié ✓'
+      } catch {
+        e.target.textContent = 'Copie : ' + brut
+      }
+      setTimeout(() => { e.target.textContent = 'Copier le code' }, 2500)
+    })
+  }
+
+  bouton.addEventListener('click', async () => {
+    clearInterval(minuteur)
+    resultat.innerHTML = ''
+    const n = chiffres()
+    if (n.length < 8 || n.length > 15) {
+      resultat.innerHTML = '<p class="erreur">Le numéro doit contenir entre 8 et 15 chiffres, avec l\'indicatif.</p>'
+      return
+    }
+    const s = serveurChoisi()
+    if (!s) {
+      resultat.innerHTML = '<p class="erreur">Aucun serveur disponible pour le moment. Réessaie dans quelques minutes.</p>'
+      return
+    }
+    bouton.disabled = true
+    bouton.textContent = 'Génération sur ' + s.nom + '…'
+    try {
+      const rep = await fetch(s.url + '/api/code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ numero: n, consentement: true }),
+      })
+      const donnees = await rep.json()
+      if (!rep.ok) throw new Error(donnees.erreur || 'Erreur')
+      afficherCode(donnees.code)
+      let essais = 0
+      minuteur = setInterval(async () => {
+        essais++
+        try {
+          const r = await (await fetch(s.url + '/api/statut/' + n)).json()
+          if (r.connecte) {
+            clearInterval(minuteur)
+            document.getElementById('suivi').innerHTML = '<span class="ok">✅ Compte connecté sur ' + s.nom + '. Envoie .menu sur WhatsApp.</span>'
+          }
+        } catch {}
+        if (essais > 100) clearInterval(minuteur)
+      }, 3000)
+    } catch (e) {
+      resultat.innerHTML = `<p class="erreur">${e.message}</p>`
+    }
+    bouton.disabled = false
+    bouton.textContent = '🔑 GÉNÉRER MON CODE'
+    rafraichir()
+  })
+
+  rafraichir()
+  setInterval(rafraichir, 30000)
+</script>
+</body>
+</html>
