@@ -52,6 +52,8 @@ app.post('/api/code', async (req, res) => {
     res.json({ code })
   } catch (e) {
     const messages = {
+      DEJA_CONNECTE_PARTOUT: 'Ce numéro est déjà connecté. Déconnecte-le dans Appareils connectés, puis réessaie.',
+      AILLEURS: 'Ce numéro est déjà connecté sur un autre serveur. Déconnecte-le dans Appareils connectés, puis réessaie.',
       DEJA_LIE: 'Ce numéro est déjà connecté au bot.',
       SATURE: 'Le service est très sollicité.' + (process.env.LIEN_SECOURS ? ' Essaie plutôt ce serveur : ' + process.env.LIEN_SECOURS : ' Réessaie dans quelques minutes.'),
     }
