@@ -48,6 +48,8 @@ async function demarrer() {
   }
 
   const sock = makeWASocket({
+    generateHighQualityLinkPreview: false,
+    syncFullHistory: false,
     version,
     auth: state,
     logger: pino({ level: 'silent' }),
