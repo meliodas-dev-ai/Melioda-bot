@@ -48,6 +48,8 @@ async function demarrer() {
   }
 
   const sock = makeWASocket({
+    markOnlineOnConnect: false,
+    shouldSyncHistoryMessage: () => false,
     generateHighQualityLinkPreview: false,
     syncFullHistory: false,
     version,
